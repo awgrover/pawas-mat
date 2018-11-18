@@ -10,9 +10,11 @@ INSTALL
   installed Firmata library for processing.
   in Arduino IDE upload StandardFirmata from Examples/Firmata
 */
+import processing.serial.*;
 
 import cc.arduino.*;
 Arduino arduino;
+final int ArduinoPortIndex = 4;  // cf. Arduino.list()
 int sensorPin = 0;
 float sensorValue = 0;
 
@@ -25,9 +27,18 @@ void draw() {
   velo_calibrate();
 }
 
+void setup_velodetect()
+{
+  println("USB Ports:");
+  println(Arduino.list()); // cf ArduinoPortIndex, count from 0
 
-int velo_calibrate() {
-  int current_velo = arduino.analogRead(sensor_pin);
+  arduino = new Arduino(this, Arduino.list()[ArduinoPortIndex], 57600); //your offset may vary
+  arduino.pinMode(sensorPin, 0);
+  println("Arduino/Velow setup");
+}
+
+void velo_calibrate() {
+  int current_velo = arduino.analogRead(sensorPin);
 
   println(current_velo);
 }
