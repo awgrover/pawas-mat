@@ -1,4 +1,16 @@
 
+/*
+Designed for velostat mat, for standing on.
+
+Wire the velostat as a voltage divider. We put a 1K variable resistor (potentiometer) as R2.
+Run "calibrate" sketch to calibrate: we want > 400 when no-stand, and < 200 when stand.
+
+INSTALL
+  install the sound library for processing.
+  installed Firmata library for processing.
+  in Arduino IDE upload StandardFirmata from Examples/Firmata
+*/
+
 //sound stuff
 import processing.sound.*;   
 import processing.serial.*;
@@ -51,11 +63,11 @@ int stood_upon() {
   Boolean new_state;
   if (current_velo < 100) {
     new_state = false;
-  } else if (current_velo > 500) {
+  } else if (current_velo > 400) {
     new_state = true;
   }
 
-  if (millis() - last_change < 300) { // debounce/shifting
+  if (millis() - last_change < 200) { // debounce/shifting
     return 0;
   }
 }
